@@ -14,6 +14,9 @@ breeder = pygame.image.load('./assets/breeder.png')
 breeders = pygame.transform.scale(breeder, (250,250))
 
 breeder_points = 0
+breeder_cost = 10
+increment = 1
+
 
 points = 0
 
@@ -24,7 +27,7 @@ black = (0, 0, 0)
 
 def print_points():
     font = pygame.font.Font('./assets/LCD_Solid.ttf', 32)
-    WinDraw = font.render(f"{points}", True, white, black)
+    WinDraw = font.render(f"{int(points)}", True, white, black)
     WintextRect = WinDraw.get_rect()
     WintextRect.center = (100, 250)
     win.blit(WinDraw, WintextRect)
@@ -62,16 +65,19 @@ while True:
                 if event.type == pygame.QUIT:
                     pygame.display.quit()
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_SPACE:
-                        height = 125
-                        points += 1
                     if event.key == pygame.K_RETURN:
-                        if points >= 10:
+                        if points >= breeder_cost:
                             breeder_points += 1
-                            points -= 10
-                if event.type == pygame.KEYUP:
-                    if event.key == pygame.K_SPACE:
-                        height = 150
+                            points -= breeder_cost
+                        print(breeder_cost)
+                if pygame.mouse.get_pressed()[0]:
+                    points += 1
+                    height = 125
+                else:
+                    height = 150
+
+    if breeder_points == 0:
+        breeder_cost = 10
 
     if timer >= 10:
         pos += 1
@@ -80,6 +86,11 @@ while True:
     if timer2 >= 15:
         points += 1 * breeder_points
         timer2 = 0
+
+    if breeder_points > 0:
+        increment = breeder_points * 1.5
+
+    breeder_cost = 10 * round(increment)
 
     timer += 1
 
