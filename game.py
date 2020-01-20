@@ -177,6 +177,7 @@ while True:
 
     if moon == False and points >= 100:
         moon = True
+        txtbr = (0,0,0)
 
     if pos == 0:
         if moon == False:
