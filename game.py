@@ -8,6 +8,8 @@ win = pygame.display.set_mode((500, 500))
 
 f1 = pygame.image.load('./assets/f1.png')
 f2 = pygame.image.load('./assets/f2.png')
+m1 = pygame.image.load('./assets/moonbr1.png')
+m2 = pygame.image.load('./assets/moonbr2.png')
 icon = pygame.image.load('./assets/Icon.png')
 icons = pygame.transform.scale(icon, (250,250))
 breeder = pygame.image.load('./assets/breeder.png')
@@ -18,6 +20,8 @@ aicons = pygame.transform.scale(aicon, (125,125))
 avery_points = 0
 avery_cost = 100
 a_increment = 1
+
+moon = False
 
 breeder_points = 0
 breeder_cost = 10
@@ -34,40 +38,41 @@ points = 0
 
 background = f1
 
+txtbr = (0, 183, 255)
+
 white = (255, 255, 255)
-black = (0, 0, 0)
 
 def print_points():
     font = pygame.font.Font('./assets/LCD_Solid.ttf', 32)
-    WinDraw = font.render(f"{int(points)}", True, white, (0, 183, 255))
+    WinDraw = font.render(f"{int(points)}", True, white, txtbr)
     WintextRect = WinDraw.get_rect()
     WintextRect.center = (100, 250)
     win.blit(WinDraw, WintextRect)
 
 def print_bpoints():
     font = pygame.font.Font('./assets/LCD_Solid.ttf', 32)
-    WinDraw2 = font.render(f"{breeder_points}", True, white, (0, 183, 255))
+    WinDraw2 = font.render(f"{breeder_points}", True, white, txtbr)
     WintextRect2 = WinDraw2.get_rect()
     WintextRect2.center = (350, 365)
     win.blit(WinDraw2, WintextRect2)
 
 def print_apoints():
     font = pygame.font.Font('./assets/LCD_Solid.ttf', 32)
-    WinDraw3 = font.render(f"{avery_points}", True, white, (0, 183, 255))
+    WinDraw3 = font.render(f"{avery_points}", True, white, txtbr)
     WintextRect3 = WinDraw3.get_rect()
     WintextRect3.center = (320, 435)
     win.blit(WinDraw3, WintextRect3)
 
 def print_start():
     font = pygame.font.Font('./assets/LCD_Solid.ttf', 32)
-    WinDraw3 = font.render(f"{selection1}", True, white, (0, 183, 255))
+    WinDraw3 = font.render(f"{selection1}", True, white, txtbr)
     WintextRect3 = WinDraw3.get_rect()
     WintextRect3.center = (250, 225)
     win.blit(WinDraw3, WintextRect3)
 
 def print_quit():
     font = pygame.font.Font('./assets/LCD_Solid.ttf', 32)
-    WinDraw3 = font.render(f"{selection2}", True, white, (0, 183, 255))
+    WinDraw3 = font.render(f"{selection2}", True, white, txtbr)
     WintextRect3 = WinDraw3.get_rect()
     WintextRect3.center = (250, 300)
     win.blit(WinDraw3, WintextRect3)
@@ -170,11 +175,20 @@ while True:
 
     timer2 += 1
 
+    if moon == False and points >= 100:
+        moon = True
+
     if pos == 0:
-        background = f1
+        if moon == False:
+            background = f1
+        if moon:
+            background = m1
 
     if pos == 1:
-        background = f2
+        if moon == False:
+            background = f2
+        if moon:
+            background = m2
 
     if pos == 3:
         pos = 0
