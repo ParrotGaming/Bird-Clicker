@@ -69,6 +69,10 @@ while True:
     win.blit(breeders, (135,250))
     win.blit(aicons, (190,375))
 
+    press = False
+
+    motion = False
+
     for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.display.quit()
@@ -82,11 +86,20 @@ while True:
                         if points >= avery_cost:
                             avery_points += 1
                             points -= avery_cost
-                if pygame.mouse.get_pressed()[0]:
-                    points += 1
-                    height = 125
+                if pygame.mouse.get_pressed()[0] and press == False:
+                    press = True
+
                 else:
                     height = 150
+                
+                if event.type == pygame.MOUSEMOTION:
+                    motion = True
+
+                if motion == False and press:
+                    points += 1
+                    height = 125
+                    press = False
+
 
     if breeder_points == 0:
         breeder_cost = 10
