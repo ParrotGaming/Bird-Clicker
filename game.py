@@ -23,6 +23,12 @@ breeder_points = 0
 breeder_cost = 10
 increment = 1
 
+start = True
+
+selection1 = "start"
+selection2 = "quit"
+ss1 = False
+ss2 = False
 
 points = 0
 
@@ -52,6 +58,20 @@ def print_apoints():
     WintextRect3.center = (320, 435)
     win.blit(WinDraw3, WintextRect3)
 
+def print_start():
+    font = pygame.font.Font('./assets/LCD_Solid.ttf', 32)
+    WinDraw3 = font.render(f"{selection1}", True, white, (0, 183, 255))
+    WintextRect3 = WinDraw3.get_rect()
+    WintextRect3.center = (250, 225)
+    win.blit(WinDraw3, WintextRect3)
+
+def print_quit():
+    font = pygame.font.Font('./assets/LCD_Solid.ttf', 32)
+    WinDraw3 = font.render(f"{selection2}", True, white, (0, 183, 255))
+    WintextRect3 = WinDraw3.get_rect()
+    WintextRect3.center = (250, 300)
+    win.blit(WinDraw3, WintextRect3)
+
 
 pos = 0
 
@@ -65,9 +85,11 @@ while True:
     pygame.time.delay(30)
 
     win.blit(background,(0,0))
-    win.blit(icons,(125,height))
-    win.blit(breeders, (135,250))
-    win.blit(aicons, (190,375))
+
+    if start == False:
+        win.blit(icons,(125,height))
+        win.blit(breeders, (135,250))
+        win.blit(aicons, (190,375))
 
     press = False
 
@@ -78,15 +100,36 @@ while True:
                     pygame.display.quit()
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RETURN:
-                        if points >= breeder_cost:
-                            breeder_points += 1
-                            points -= breeder_cost
-                        print(breeder_cost)
+                        if start == False:
+                            if points >= breeder_cost:
+                                breeder_points += 1
+                                points -= breeder_cost
+                            print(breeder_cost)
+                        if start:
+                            if ss1:
+                                start = False
+                            if ss2:
+                                pygame.display.quit()
+                    if event.key == pygame.K_ESCAPE:
+                        start = True
                     if event.key == pygame.K_RSHIFT:
-                        if points >= avery_cost:
-                            avery_points += 1
-                            points -= avery_cost
-                if pygame.mouse.get_pressed()[0] and press == False:
+                        if start == False:
+                            if points >= avery_cost:
+                                avery_points += 1
+                                points -= avery_cost
+                    if event.key == pygame.K_UP:
+                        if start == True:
+                            ss1 = True
+                            selection1 = "START"
+                            ss2 = False
+                            selection2 = "quit"
+                    if event.key == pygame.K_DOWN:
+                        if start == True:
+                            ss1 = False
+                            selection1 = "start"
+                            ss2 = True
+                            selection2 = "QUIT"
+                if pygame.mouse.get_pressed()[0] and press == False and start == False:
                     press = True
 
                 else:
@@ -137,8 +180,13 @@ while True:
         pos = 0
         timer = 0
 
-    print_points()
-    print_bpoints()
-    print_apoints()
+    if start:
+        print_start()
+        print_quit()
+
+    if start == False:
+        print_points()
+        print_bpoints()
+        print_apoints()
 
     pygame.display.update()
