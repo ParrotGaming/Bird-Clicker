@@ -84,6 +84,8 @@ timer = 0
 
 timer2 = 0
 
+timer3 = 0
+
 height = 150
 
 while True:
@@ -104,6 +106,7 @@ while True:
                 if event.type == pygame.QUIT:
                     pygame.display.quit()
                 if event.type == pygame.KEYDOWN:
+                    motion = True
                     if event.key == pygame.K_RETURN:
                         if start == False:
                             if points >= breeder_cost:
@@ -117,6 +120,10 @@ while True:
                                 pygame.display.quit()
                     if event.key == pygame.K_ESCAPE:
                         start = True
+                        selection1 = "start"
+                        selection2 = "quit"
+                        ss1 = False
+                        ss2 = False
                     if event.key == pygame.K_RSHIFT:
                         if start == False:
                             if points >= avery_cost:
@@ -134,6 +141,8 @@ while True:
                             selection1 = "start"
                             ss2 = True
                             selection2 = "QUIT"
+                if event.type == pygame.KEYUP:
+                    motion = True
                 if pygame.mouse.get_pressed()[0] and press == False and start == False:
                     press = True
 
