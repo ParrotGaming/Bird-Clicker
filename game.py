@@ -8,17 +8,22 @@ win = pygame.display.set_mode((500, 500))
 
 bw = 200
 bh = 200
+bx = 50
+by = 50
+
+aw = 90
+ah = 90
+ax = 300
+ay = 95
 
 f1 = pygame.image.load('./assets/f1.png')
 f2 = pygame.image.load('./assets/f2.png')
-m1 = pygame.image.load('./assets/moonbr1.png')
-m2 = pygame.image.load('./assets/moonbr2.png')
 icon = pygame.image.load('./assets/Icon.png')
 icons = pygame.transform.scale(icon, (250,250))
 breeder = pygame.image.load('./assets/breeder.png')
 breeders = pygame.transform.scale(breeder, (bw,bh))
 aicon = pygame.image.load('./assets/AVI2.png')
-aicons = pygame.transform.scale(aicon, (125,125))
+aicons = pygame.transform.scale(aicon, (aw,ah))
 
 avery_points = 0
 avery_cost = 100
@@ -60,14 +65,14 @@ def print_bpoints():
     font = pygame.font.Font('./assets/LCD_Solid.ttf', 32)
     WinDraw2 = font.render(f"{breeder_points}", True, white, txtbr)
     WintextRect2 = WinDraw2.get_rect()
-    WintextRect2.center = (225, 150)
+    WintextRect2.center = (225, 145)
     win.blit(WinDraw2, WintextRect2)
 
 def print_apoints():
     font = pygame.font.Font('./assets/LCD_Solid.ttf', 32)
     WinDraw3 = font.render(f"{avery_points}", True, white, txtbr)
     WintextRect3 = WinDraw3.get_rect()
-    WintextRect3.center = (320, 435)
+    WintextRect3.center = (400, 145)
     win.blit(WinDraw3, WintextRect3)
 
 def print_start():
@@ -121,6 +126,10 @@ while True:
                                     breeder_points += 1
                                     points -= breeder_cost
                                 print(breeder_cost)
+                            if px == 2:
+                                if points >= avery_cost:
+                                    avery_points += 1
+                                    points -= avery_cost
                         if start:
                             if ss1:
                                 start = False
@@ -135,11 +144,6 @@ while True:
                             ss2 = False
                         if store:
                             store = False
-                    if event.key == pygame.K_RSHIFT:
-                        if start == False:
-                            if points >= avery_cost:
-                                avery_points += 1
-                                points -= avery_cost
                     if event.key == pygame.K_UP:
                         if start == True:
                             ss1 = True
@@ -184,13 +188,35 @@ while True:
     if px == 1:
         bw = 225
         bh = 225
+        bx = 35
+        by = 35
+        aw = 90
+        ah = 90
+        ax = 300
+        ay = 95
+
+    elif px == 2:
+        aw = 120
+        ah = 120
+        ax = 290
+        ay = 85
+        bw = 200
+        bh = 200
+        bx = 50
+        by = 50
     else:
         bw = 200
         bh = 200
+        bx = 50
+        by = 50
+        aw = 90
+        ah = 90
+        ax = 300
+        ay = 95
 
     if store:
-        win.blit(breeders, (50,50))
-        win.blit(aicons, (190,375))
+        win.blit(breeders, (bx,by))
+        win.blit(aicons, (ax,ay))
         print_bpoints()
         print_apoints()
 
@@ -220,21 +246,11 @@ while True:
 
     timer2 += 1
 
-    if moon == False and points >= 100:
-        moon = True
-        txtbr = (0,0,0)
-
     if pos == 0:
-        if moon == False:
-            background = f1
-        if moon:
-            background = m1
+        background = f1
 
     if pos == 1:
-        if moon == False:
-            background = f2
-        if moon:
-            background = m2
+        background = f2
 
     if pos == 3:
         pos = 0
