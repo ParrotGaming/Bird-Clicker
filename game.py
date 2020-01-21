@@ -6,6 +6,9 @@ pygame.display.set_caption("Bird Clicker")
 
 win = pygame.display.set_mode((500, 500))
 
+bw = 200
+bh = 200
+
 f1 = pygame.image.load('./assets/f1.png')
 f2 = pygame.image.load('./assets/f2.png')
 m1 = pygame.image.load('./assets/moonbr1.png')
@@ -13,13 +16,15 @@ m2 = pygame.image.load('./assets/moonbr2.png')
 icon = pygame.image.load('./assets/Icon.png')
 icons = pygame.transform.scale(icon, (250,250))
 breeder = pygame.image.load('./assets/breeder.png')
-breeders = pygame.transform.scale(breeder, (250,250))
+breeders = pygame.transform.scale(breeder, (bw,bh))
 aicon = pygame.image.load('./assets/AVI2.png')
 aicons = pygame.transform.scale(aicon, (125,125))
 
 avery_points = 0
 avery_cost = 100
 a_increment = 1
+
+px = 1
 
 moon = False
 
@@ -55,7 +60,7 @@ def print_bpoints():
     font = pygame.font.Font('./assets/LCD_Solid.ttf', 32)
     WinDraw2 = font.render(f"{breeder_points}", True, white, txtbr)
     WintextRect2 = WinDraw2.get_rect()
-    WintextRect2.center = (350, 365)
+    WintextRect2.center = (225, 150)
     win.blit(WinDraw2, WintextRect2)
 
 def print_apoints():
@@ -95,6 +100,8 @@ while True:
 
     win.blit(background,(0,0))
 
+    breeders = pygame.transform.scale(breeder, (bw,bh))
+
     if start == False and store == False:
         win.blit(icons,(125,height))
 
@@ -108,11 +115,12 @@ while True:
                 if event.type == pygame.KEYDOWN:
                     motion = True
                     if event.key == pygame.K_RETURN:
-                        if start == False:
-                            if points >= breeder_cost:
-                                breeder_points += 1
-                                points -= breeder_cost
-                            print(breeder_cost)
+                        if start == False and store == True:
+                            if px == 1:
+                                if points >= breeder_cost:
+                                    breeder_points += 1
+                                    points -= breeder_cost
+                                print(breeder_cost)
                         if start:
                             if ss1:
                                 start = False
@@ -144,6 +152,12 @@ while True:
                             selection1 = "start"
                             ss2 = True
                             selection2 = "QUIT"
+                    if event.key == pygame.K_RIGHT:
+                        if px <= 2:
+                            px += 1
+                    if event.key == pygame.K_LEFT:
+                        if px >= 1:
+                            px -= 1
                     if event.key == pygame.K_s:
                         if start == False:
                             store = True
@@ -163,9 +177,19 @@ while True:
                     height = 125
                     press = False
 
+    print(px)
+    print(bw)
+    print(bh)
+
+    if px == 1:
+        bw = 225
+        bh = 225
+    else:
+        bw = 200
+        bh = 200
 
     if store:
-        win.blit(breeders, (135,250))
+        win.blit(breeders, (50,50))
         win.blit(aicons, (190,375))
         print_bpoints()
         print_apoints()
