@@ -20,6 +20,7 @@ f1 = pygame.image.load('./assets/f1.png')
 f2 = pygame.image.load('./assets/f2.png')
 icon = pygame.image.load('./assets/Icon.png')
 icons = pygame.transform.scale(icon, (250,250))
+moontro = pygame.image.load('./assets/moon_trophy.png')
 breeder = pygame.image.load('./assets/breeder.png')
 breeders = pygame.transform.scale(breeder, (bw,bh))
 aicon = pygame.image.load('./assets/AVI2.png')
@@ -38,6 +39,8 @@ breeder_cost = 10
 increment = 1
 
 start = True
+
+trophy = False
 
 store = False
 
@@ -107,7 +110,7 @@ while True:
 
     breeders = pygame.transform.scale(breeder, (bw,bh))
 
-    if start == False and store == False:
+    if start == False and store == False and trophy == False:
         win.blit(icons,(125,height))
 
     press = False
@@ -136,14 +139,16 @@ while True:
                             if ss2:
                                 pygame.display.quit()
                     if event.key == pygame.K_ESCAPE:
-                        if store == False:
+                        if store == False and trophy == False:
                             start = True
                             selection1 = "start"
                             selection2 = "quit"
                             ss1 = False
                             ss2 = False
-                        if store:
+                        if store == True and trophy == False:
                             store = False
+                        if trophy == True and store == False:
+                            trophy = False
                     if event.key == pygame.K_UP:
                         if start == True:
                             ss1 = True
@@ -163,8 +168,11 @@ while True:
                         if px >= 1:
                             px -= 1
                     if event.key == pygame.K_s:
-                        if start == False:
+                        if start == False and trophy == False:
                             store = True
+                    if event.key == pygame.K_t:
+                        if start == False and store == False:
+                            trophy = True
                 if event.type == pygame.KEYUP:
                     motion = True
                 if pygame.mouse.get_pressed()[0] and press == False and start == False and store == False:
@@ -214,7 +222,7 @@ while True:
         ax = 300
         ay = 95
 
-    if store:
+    if store == True and trophy == False:
         win.blit(breeders, (bx,by))
         win.blit(aicons, (ax,ay))
         print_bpoints()
@@ -227,7 +235,7 @@ while True:
         pos += 1
         timer = 0
 
-    if timer2 >= 15:
+    if timer2 >= 30:
         points += 1 * breeder_points
         points += 10 * avery_points
         timer2 = 0
@@ -260,7 +268,14 @@ while True:
         print_start()
         print_quit()
 
-    if start == False and store == False:
+    if points >= 100:
+        moon = True
+
+    if start == False and store == False and trophy == False:
         print_points()
+
+    if trophy == True and store == False:
+        if moon:
+            win.blit(moontro, (150,200))
 
     pygame.display.update()
