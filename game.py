@@ -95,10 +95,8 @@ while True:
 
     win.blit(background,(0,0))
 
-    if start == False:
+    if start == False and store == False:
         win.blit(icons,(125,height))
-        win.blit(breeders, (135,250))
-        win.blit(aicons, (190,375))
 
     press = False
 
@@ -121,11 +119,14 @@ while True:
                             if ss2:
                                 pygame.display.quit()
                     if event.key == pygame.K_ESCAPE:
-                        start = True
-                        selection1 = "start"
-                        selection2 = "quit"
-                        ss1 = False
-                        ss2 = False
+                        if store == False:
+                            start = True
+                            selection1 = "start"
+                            selection2 = "quit"
+                            ss1 = False
+                            ss2 = False
+                        if store:
+                            store = False
                     if event.key == pygame.K_RSHIFT:
                         if start == False:
                             if points >= avery_cost:
@@ -143,9 +144,12 @@ while True:
                             selection1 = "start"
                             ss2 = True
                             selection2 = "QUIT"
+                    if event.key == pygame.K_s:
+                        if start == False:
+                            store = True
                 if event.type == pygame.KEYUP:
                     motion = True
-                if pygame.mouse.get_pressed()[0] and press == False and start == False:
+                if pygame.mouse.get_pressed()[0] and press == False and start == False and store == False:
                     press = True
 
                 else:
@@ -159,6 +163,12 @@ while True:
                     height = 125
                     press = False
 
+
+    if store:
+        win.blit(breeders, (135,250))
+        win.blit(aicons, (190,375))
+        print_bpoints()
+        print_apoints()
 
     if breeder_points == 0:
         breeder_cost = 10
@@ -210,9 +220,7 @@ while True:
         print_start()
         print_quit()
 
-    if start == False:
+    if start == False and store == False:
         print_points()
-        print_bpoints()
-        print_apoints()
 
     pygame.display.update()
