@@ -29,6 +29,8 @@ increment = 1
 
 start = True
 
+store = False
+
 selection1 = "start"
 selection2 = "quit"
 ss1 = False
