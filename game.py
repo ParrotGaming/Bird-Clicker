@@ -18,9 +18,12 @@ ay = 95
 
 f1 = pygame.image.load('./assets/f1.png')
 f2 = pygame.image.load('./assets/f2.png')
+lck = pygame.image.load('./assets/locked.png')
+lcks = pygame.transform.scale(lck, (100,100))
 icon = pygame.image.load('./assets/Icon.png')
 icons = pygame.transform.scale(icon, (250,250))
 moontro = pygame.image.load('./assets/moon_trophy.png')
+moontros = pygame.transform.scale(moontro, (100,100))
 breeder = pygame.image.load('./assets/breeder.png')
 breeders = pygame.transform.scale(breeder, (bw,bh))
 aicon = pygame.image.load('./assets/AVI2.png')
@@ -92,6 +95,20 @@ def print_quit():
     WintextRect3.center = (250, 300)
     win.blit(WinDraw3, WintextRect3)
 
+def print_moon():
+    font = pygame.font.Font('./assets/LCD_Solid.ttf', 32)
+    WinDraw3 = font.render(f"Moon", True, white, txtbr)
+    WintextRect3 = WinDraw3.get_rect()
+    WintextRect3.center = (200, 170)
+    win.blit(WinDraw3, WintextRect3)
+
+def print_moon_points():
+    font = pygame.font.Font('./assets/LCD_Solid.ttf', 32)
+    WinDraw3 = font.render(f"100 pts", True, white, txtbr)
+    WintextRect3 = WinDraw3.get_rect()
+    WintextRect3.center = (200, 330)
+    win.blit(WinDraw3, WintextRect3)
+
 
 pos = 0
 
@@ -102,6 +119,8 @@ timer2 = 0
 timer3 = 0
 
 height = 150
+
+t1 = moontros
 
 while True:
     pygame.time.delay(30)
@@ -194,10 +213,8 @@ while True:
     print(bh)
 
     if px == 1:
-        bw = 225
-        bh = 225
-        bx = 35
-        by = 35
+        bx = 50
+        by = 40
         aw = 90
         ah = 90
         ax = 300
@@ -206,7 +223,7 @@ while True:
     elif px == 2:
         aw = 120
         ah = 120
-        ax = 290
+        ax = 300
         ay = 85
         bw = 200
         bh = 200
@@ -270,12 +287,18 @@ while True:
 
     if points >= 100:
         moon = True
+    
+    if moon:
+        t1 = moontros
+    if moon == False:
+        t1 = lcks
 
     if start == False and store == False and trophy == False:
         print_points()
 
     if trophy == True and store == False:
-        if moon:
-            win.blit(moontro, (150,200))
+        win.blit(t1, (150,200))
+        print_moon()
+        print_moon_points()
 
     pygame.display.update()
