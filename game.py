@@ -1,3 +1,4 @@
+import json
 import pygame
 pygame.init()
 pygame.font.init()
@@ -36,8 +37,6 @@ a_increment = 1
 px = 1
 
 moon = False
-
-breeder_points = 0
 breeder_cost = 10
 increment = 1
 
@@ -52,31 +51,58 @@ selection2 = "quit"
 ss1 = False
 ss2 = False
 
-points = 0
-
 background = f1
 
 txtbr = (0, 183, 255)
 
 white = (255, 255, 255)
 
+class State:
+    def __init__(self):
+        self.points = 0
+        self.breeder_points = 0
+        self.avery_points = 0
+
+    def decode(self):
+        f = open("./saves/save.json","r")
+        d = json.load(f)
+        self.points = d.get("points",0)
+        self.breeder_points = d.get("breeder_points",0)
+        self.avery_points = d.get("avery_points",0)
+
+    def encode(self):
+        f = open("./saves/save.json","w")
+        d = {
+            "points": self.points,
+            "breeder_points": self.breeder_points,
+            "avery_points": self.avery_points
+        }
+        json.dump(d,f)
+
+state = State()
+
+try:
+    state.decode()
+except:
+    pass
+
 def print_points():
     font = pygame.font.Font('./assets/LCD_Solid.ttf', 32)
-    WinDraw = font.render(f"{int(points)}", True, white, txtbr)
+    WinDraw = font.render(f"{int(state.points)}", True, white, txtbr)
     WintextRect = WinDraw.get_rect()
     WintextRect.center = (100, 250)
     win.blit(WinDraw, WintextRect)
 
 def print_bpoints():
     font = pygame.font.Font('./assets/LCD_Solid.ttf', 32)
-    WinDraw2 = font.render(f"{breeder_points}", True, white, txtbr)
+    WinDraw2 = font.render(f"{state.breeder_points}", True, white, txtbr)
     WintextRect2 = WinDraw2.get_rect()
     WintextRect2.center = (225, 145)
     win.blit(WinDraw2, WintextRect2)
 
 def print_apoints():
     font = pygame.font.Font('./assets/LCD_Solid.ttf', 32)
-    WinDraw3 = font.render(f"{avery_points}", True, white, txtbr)
+    WinDraw3 = font.render(f"{state.avery_points}", True, white, txtbr)
     WintextRect3 = WinDraw3.get_rect()
     WintextRect3.center = (400, 145)
     win.blit(WinDraw3, WintextRect3)
@@ -144,18 +170,19 @@ while True:
                     if event.key == pygame.K_RETURN:
                         if start == False and store == True:
                             if px == 1:
-                                if points >= breeder_cost:
-                                    breeder_points += 1
-                                    points -= breeder_cost
+                                if state.points >= breeder_cost:
+                                    state.breeder_points += 1
+                                    state.points -= breeder_cost
                                 print(breeder_cost)
                             if px == 2:
-                                if points >= avery_cost:
-                                    avery_points += 1
-                                    points -= avery_cost
+                                if state.points >= avery_cost:
+                                    state.avery_points += 1
+                                    state.points -= avery_cost
                         if start:
                             if ss1:
                                 start = False
                             if ss2:
+                                state.encode()
                                 pygame.display.quit()
                     if event.key == pygame.K_ESCAPE:
                         if store == False and trophy == False:
@@ -204,7 +231,7 @@ while True:
                     motion = True
 
                 if motion == False and press:
-                    points += 1
+                    state.points += 1
                     height = 125
                     press = False
 
@@ -245,7 +272,7 @@ while True:
         print_bpoints()
         print_apoints()
 
-    if breeder_points == 0:
+    if state.breeder_points == 0:
         breeder_cost = 10
 
     if timer >= 10:
@@ -253,16 +280,16 @@ while True:
         timer = 0
 
     if timer2 >= 30:
-        points += 1 * breeder_points
-        points += 10 * avery_points
+        state.points += 1 * state.breeder_points
+        state.points += 10 * state.avery_points
         timer2 = 0
 
-    if breeder_points > 0:
-        increment = breeder_points * 1.5
+    if state.breeder_points > 0:
+        increment = state.breeder_points * 1.5
 
     breeder_cost = 10 * round(increment)
 
-    if avery_points > 0:
+    if state.avery_points > 0:
         a_increment = avery_points * 1.5
 
     avery_cost = 100 * round(a_increment)
@@ -285,7 +312,7 @@ while True:
         print_start()
         print_quit()
 
-    if points >= 100:
+    if state.points >= 100:
         moon = True
     
     if moon:
