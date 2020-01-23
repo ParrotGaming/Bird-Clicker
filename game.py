@@ -25,6 +25,7 @@ icon = pygame.image.load('./assets/Icon.png')
 icons = pygame.transform.scale(icon, (250,250))
 moontro = pygame.image.load('./assets/moon_trophy.png')
 moontros = pygame.transform.scale(moontro, (100,100))
+marstro = pygame.image.load('./assets/mars.png')
 breeder = pygame.image.load('./assets/breeder.png')
 breeders = pygame.transform.scale(breeder, (bw,bh))
 aicon = pygame.image.load('./assets/AVI2.png')
@@ -166,6 +167,7 @@ while True:
 
     for event in pygame.event.get():
                 if event.type == pygame.QUIT:
+                    state.encode()
                     pygame.display.quit()
                 if event.type == pygame.KEYDOWN:
                     motion = True
