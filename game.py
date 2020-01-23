@@ -36,7 +36,6 @@ a_increment = 1
 
 px = 1
 
-moon = False
 breeder_cost = 10
 increment = 1
 
@@ -62,6 +61,7 @@ class State:
         self.points = 0
         self.breeder_points = 0
         self.avery_points = 0
+        self.moon = False
 
     def decode(self):
         f = open("./saves/save.json","r")
@@ -69,13 +69,15 @@ class State:
         self.points = d.get("points",0)
         self.breeder_points = d.get("breeder_points",0)
         self.avery_points = d.get("avery_points",0)
+        self.moon = d.get("moon",0)
 
     def encode(self):
         f = open("./saves/save.json","w")
         d = {
             "points": self.points,
             "breeder_points": self.breeder_points,
-            "avery_points": self.avery_points
+            "avery_points": self.avery_points,
+            "moon": self.moon
         }
         json.dump(d,f)
 
@@ -235,10 +237,6 @@ while True:
                     height = 125
                     press = False
 
-    print(px)
-    print(bw)
-    print(bh)
-
     if px == 1:
         bx = 50
         by = 40
@@ -313,11 +311,11 @@ while True:
         print_quit()
 
     if state.points >= 100:
-        moon = True
+        state.moon = True
     
-    if moon:
+    if state.moon:
         t1 = moontros
-    if moon == False:
+    if state.moon == False:
         t1 = lcks
 
     if start == False and store == False and trophy == False:
