@@ -26,6 +26,7 @@ icons = pygame.transform.scale(icon, (250,250))
 moontro = pygame.image.load('./assets/moon_trophy.png')
 moontros = pygame.transform.scale(moontro, (100,100))
 marstro = pygame.image.load('./assets/mars.png')
+marstros = pygame.transform.scale(marstro, (100,100))
 breeder = pygame.image.load('./assets/breeder.png')
 breeders = pygame.transform.scale(breeder, (bw,bh))
 aicon = pygame.image.load('./assets/AVI2.png')
@@ -63,6 +64,7 @@ class State:
         self.breeder_points = 0
         self.avery_points = 0
         self.moon = False
+        self.mars = False
 
     def decode(self):
         f = open("./saves/save.json","r")
@@ -71,6 +73,7 @@ class State:
         self.breeder_points = d.get("breeder_points",0)
         self.avery_points = d.get("avery_points",0)
         self.moon = d.get("moon",0)
+        self.mars = d.get("mars",0)
 
     def encode(self):
         f = open("./saves/save.json","w")
@@ -78,7 +81,8 @@ class State:
             "points": self.points,
             "breeder_points": self.breeder_points,
             "avery_points": self.avery_points,
-            "moon": self.moon
+            "moon": self.moon,
+            "mars": self.mars
         }
         json.dump(d,f)
 
@@ -128,16 +132,29 @@ def print_moon():
     font = pygame.font.Font('./assets/LCD_Solid.ttf', 32)
     WinDraw3 = font.render(f"Moon", True, white, txtbr)
     WintextRect3 = WinDraw3.get_rect()
-    WintextRect3.center = (200, 170)
+    WintextRect3.center = (140, 170)
     win.blit(WinDraw3, WintextRect3)
 
 def print_moon_points():
     font = pygame.font.Font('./assets/LCD_Solid.ttf', 32)
     WinDraw3 = font.render(f"100 pts", True, white, txtbr)
     WintextRect3 = WinDraw3.get_rect()
-    WintextRect3.center = (200, 330)
+    WintextRect3.center = (140, 330)
     win.blit(WinDraw3, WintextRect3)
 
+def print_mars():
+    font = pygame.font.Font('./assets/LCD_Solid.ttf', 32)
+    WinDraw3 = font.render(f"Mars", True, white, txtbr)
+    WintextRect3 = WinDraw3.get_rect()
+    WintextRect3.center = (370, 170)
+    win.blit(WinDraw3, WintextRect3)
+
+def print_mars_points():
+    font = pygame.font.Font('./assets/LCD_Solid.ttf', 32)
+    WinDraw3 = font.render(f"1000 pts", True, white, txtbr)
+    WintextRect3 = WinDraw3.get_rect()
+    WintextRect3.center = (365, 330)
+    win.blit(WinDraw3, WintextRect3)
 
 pos = 0
 
@@ -150,6 +167,8 @@ timer3 = 0
 height = 150
 
 t1 = moontros
+
+t2 = lcks
 
 while True:
     pygame.time.delay(30)
@@ -314,18 +333,28 @@ while True:
 
     if state.points >= 100:
         state.moon = True
+
+    if state.points >= 1000:
+        state.mars = True
     
     if state.moon:
         t1 = moontros
     if state.moon == False:
         t1 = lcks
+    if state.mars:
+        t2 = marstros
+    if state.mars == False:
+        t2 = lcks
 
     if start == False and store == False and trophy == False:
         print_points()
 
     if trophy == True and store == False:
-        win.blit(t1, (150,200))
+        win.blit(t1, (90,200))
+        win.blit(t2, (320,200))
         print_moon()
         print_moon_points()
+        print_mars()
+        print_mars_points()
 
     pygame.display.update()
