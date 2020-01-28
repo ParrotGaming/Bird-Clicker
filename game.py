@@ -93,9 +93,19 @@ try:
 except:
     pass
 
+display_points = 0
+display_pointsV = ""
+
 def print_points():
     font = pygame.font.Font('./assets/LCD_Solid.ttf', 32)
-    WinDraw = font.render(f"{int(state.points)}", True, white, txtbr)
+    WinDraw = font.render(f"{int(display_points)}{display_pointsV}", True, white, txtbr)
+    WintextRect = WinDraw.get_rect()
+    WintextRect.center = (100, 250)
+    win.blit(WinDraw, WintextRect)
+
+def print_pointsF():
+    font = pygame.font.Font('./assets/LCD_Solid.ttf', 32)
+    WinDraw = font.render(f"{round(display_points,1)}{display_pointsV}", True, white, txtbr)
     WintextRect = WinDraw.get_rect()
     WintextRect.center = (100, 250)
     win.blit(WinDraw, WintextRect)
@@ -347,7 +357,10 @@ while True:
         t2 = lcks
 
     if start == False and store == False and trophy == False:
-        print_points()
+        if state.points < 1000:
+            print_points()
+        if state.points >= 1000:
+            print_pointsF()
 
     if trophy == True and store == False:
         win.blit(t1, (90,200))
@@ -356,5 +369,17 @@ while True:
         print_moon_points()
         print_mars()
         print_mars_points()
+
+    if state.points < 1000:
+        display_points = state.points
+        display_pointsV = ""
+
+    if state.points >= 1000:
+        display_points = float(state.points) / 1000
+        display_pointsV = "K"
+
+    if state.points >= 100000:
+        display_points = float(state.points) / 1000000
+        display_pointsV = "M"
 
     pygame.display.update()
