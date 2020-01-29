@@ -105,7 +105,7 @@ def print_points():
 
 def print_pointsF():
     font = pygame.font.Font('./assets/LCD_Solid.ttf', 32)
-    WinDraw = font.render(f"{round(display_points,1)}{display_pointsV}", True, white, txtbr)
+    WinDraw = font.render(f"{str(display_points)}{display_pointsV}", True, white, txtbr)
     WintextRect = WinDraw.get_rect()
     WintextRect.center = (100, 250)
     win.blit(WinDraw, WintextRect)
@@ -378,7 +378,7 @@ while True:
         display_points = float(state.points) / 1000
         display_pointsV = "K"
 
-    if state.points >= 100000:
+    if state.points >= 1000000:
         display_points = float(state.points) / 1000000
         display_pointsV = "M"
 
