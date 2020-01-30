@@ -32,10 +32,6 @@ breeders = pygame.transform.scale(breeder, (bw,bh))
 aicon = pygame.image.load('./assets/AVI2.png')
 aicons = pygame.transform.scale(aicon, (aw,ah))
 
-avery_points = 0
-avery_cost = 100
-a_increment = 1
-
 px = 1
 
 breeder_cost = 10
@@ -105,7 +101,12 @@ def print_points():
 
 def print_pointsF():
     font = pygame.font.Font('./assets/LCD_Solid.ttf', 32)
-    WinDraw = font.render(f"{str(display_points)}{display_pointsV}", True, white, txtbr)
+    # cut off insignificant digits
+    s = str(display_points)
+    i = s.index(".")
+    if i > -1:
+        s = s[:i+2]
+    WinDraw = font.render(f"{s}{display_pointsV}", True, white, txtbr)
     WintextRect = WinDraw.get_rect()
     WintextRect.center = (100, 250)
     win.blit(WinDraw, WintextRect)
@@ -318,10 +319,9 @@ while True:
 
     breeder_cost = 10 * round(increment)
 
-    if state.avery_points > 0:
-        a_increment = avery_points * 1.5
 
-    avery_cost = 100 * round(a_increment)
+    avery_cost = int(100 * (state.avery_points + 1) * 1.5)
+    print(avery_cost)
 
     timer += 1
 
@@ -377,9 +377,11 @@ while True:
     if state.points >= 1000:
         display_points = float(state.points) / 1000
         display_pointsV = "K"
-
     if state.points >= 1000000:
         display_points = float(state.points) / 1000000
         display_pointsV = "M"
+    if state.points >= 1000000000:
+        display_points = float(state.points) / 1000000000
+        display_pointsV = "B"
 
     pygame.display.update()
