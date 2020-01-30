@@ -137,7 +137,7 @@ def print_bcost():
     font = pygame.font.Font('./assets/LCD_Solid.ttf', 32)
     WinDraw2 = font.render(f"{display_number(breeder_cost)}", True, white, txtbr)
     WintextRect2 = WinDraw2.get_rect()
-    WintextRect2.center = (225, 245)
+    WintextRect2.center = (145, 190)
     win.blit(WinDraw2, WintextRect2)
 
 def print_apoints():
