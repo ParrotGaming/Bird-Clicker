@@ -92,6 +92,26 @@ except:
 display_points = 0
 display_pointsV = ""
 
+def display_number(n):
+    t = 1000
+    m = 1000000
+    b = 1000000000
+    l = ""
+    if n >= b:
+        n = float(n) / b
+        l = "B"
+    elif n >= m:
+        n = float(n) / m
+        l = "M"
+    elif n >= t:
+        n = float(n) / t
+        l = "K"
+    s = str(n)
+    i = s.find(".")
+    if i > -1:
+        s = s[:i+2]
+    return s + l
+
 def print_points():
     font = pygame.font.Font('./assets/LCD_Solid.ttf', 32)
     WinDraw = font.render(f"{int(display_points)}{display_pointsV}", True, white, txtbr)
@@ -101,12 +121,7 @@ def print_points():
 
 def print_pointsF():
     font = pygame.font.Font('./assets/LCD_Solid.ttf', 32)
-    # cut off insignificant digits
-    s = str(display_points)
-    i = s.index(".")
-    if i > -1:
-        s = s[:i+2]
-    WinDraw = font.render(f"{s}{display_pointsV}", True, white, txtbr)
+    WinDraw = font.render(f"{display_number(state.points)}", True, white, txtbr)
     WintextRect = WinDraw.get_rect()
     WintextRect.center = (100, 250)
     win.blit(WinDraw, WintextRect)
@@ -116,6 +131,13 @@ def print_bpoints():
     WinDraw2 = font.render(f"{state.breeder_points}", True, white, txtbr)
     WintextRect2 = WinDraw2.get_rect()
     WintextRect2.center = (225, 145)
+    win.blit(WinDraw2, WintextRect2)
+
+def print_bcost():
+    font = pygame.font.Font('./assets/LCD_Solid.ttf', 32)
+    WinDraw2 = font.render(f"{display_number(breeder_cost)}", True, white, txtbr)
+    WintextRect2 = WinDraw2.get_rect()
+    WintextRect2.center = (225, 245)
     win.blit(WinDraw2, WintextRect2)
 
 def print_apoints():
@@ -301,6 +323,7 @@ while True:
         win.blit(aicons, (ax,ay))
         print_bpoints()
         print_apoints()
+        print_bcost()
 
     if state.breeder_points == 0:
         breeder_cost = 10
@@ -373,15 +396,5 @@ while True:
     if state.points < 1000:
         display_points = state.points
         display_pointsV = ""
-
-    if state.points >= 1000:
-        display_points = float(state.points) / 1000
-        display_pointsV = "K"
-    if state.points >= 1000000:
-        display_points = float(state.points) / 1000000
-        display_pointsV = "M"
-    if state.points >= 1000000000:
-        display_points = float(state.points) / 1000000000
-        display_pointsV = "B"
 
     pygame.display.update()
