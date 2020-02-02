@@ -147,6 +147,13 @@ def print_apoints():
     WintextRect3.center = (400, 145)
     win.blit(WinDraw3, WintextRect3)
 
+def print_acost():
+    font = pygame.font.Font('./assets/LCD_Solid.ttf', 32)
+    WinDraw2 = font.render(f"{display_number(avery_cost)}", True, white, txtbr)
+    WintextRect2 = WinDraw2.get_rect()
+    WintextRect2.center = (350, 190)
+    win.blit(WinDraw2, WintextRect2)
+
 def print_start():
     font = pygame.font.Font('./assets/LCD_Solid.ttf', 32)
     WinDraw3 = font.render(f"{selection1}", True, white, txtbr)
@@ -323,6 +330,7 @@ while True:
         win.blit(aicons, (ax,ay))
         print_bpoints()
         print_apoints()
+        print_acost()
         print_bcost()
 
     if state.breeder_points == 0:
