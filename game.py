@@ -96,8 +96,12 @@ def display_number(n):
     t = 1000
     m = 1000000
     b = 1000000000
+    tr = 1000000000000
     l = ""
-    if n >= b:
+    if n >= tr:
+        n = float(n) / tr
+        l = "TR"
+    elif n >= b:
         n = float(n) / b
         l = "B"
     elif n >= m:
