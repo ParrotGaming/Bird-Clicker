@@ -54,23 +54,12 @@ txtbr = (0, 183, 255)
 
 white = (255, 255, 255)
 
-def button_store():
-    pass
-button_store.asset = pygame.image.load('./assets/store.png')
-button_store.x = 0
-button_store.y = 0
-button_store.w = 50
-button_store.h = 50
-button_store.assetScaled = pygame.transform.scale(button_store.asset, (button_store.w,button_store.h))
 
-def button_exit():
-    pass
-button_exit.asset = pygame.image.load('./assets/quit.png')
-button_exit.x = 0
-button_exit.y = 0
-button_exit.w = 50
-button_exit.h = 50
-button_exit.assetScaled = pygame.transform.scale(button_exit.asset, (button_exit.w,button_exit.h))
+button_store = pygame.Rect(0,0,50,50)
+button_store_asset = pygame.image.load('./assets/store.png')
+button_store_assetScaled = pygame.transform.scale(button_store_asset, (50,50))
+button_exit_asset = pygame.image.load('./assets/quit.png')
+button_exit_assetScaled = pygame.transform.scale(button_exit_asset, (50,50))
 
 class State:
     def __init__(self):
@@ -319,12 +308,8 @@ while True:
                     motion = True
 
                 if motion == False and press:
-                    if mouseX in range(button_store.x,(button_store.x + button_store.w)) and mouseY in range(button_store.y,(button_store.y + button_store.h)) and store == False:
-                        store = True
-                        print("store")
-                    elif mouseX in range(button_exit.x,(button_exit.x + button_exit.w)) and mouseY in range(button_exit.y,(button_exit.y + button_exit.h)) and store == True:
-                        store = False
-                        print("exit")
+                    if button_store.collidepoint(mouseX,mouseY):
+                        store = not store
                     else:
                         state.points += 1
                         height = 125
@@ -365,7 +350,7 @@ while True:
         print_apoints()
         print_acost()
         print_bcost()
-        win.blit(button_exit.assetScaled,(button_exit.x,button_exit.y))
+        win.blit(button_exit_assetScaled,(button_store.x,button_store.y))
 
     if state.breeder_points == 0:
         breeder_cost = 10
@@ -425,7 +410,7 @@ while True:
             print_points()
         if state.points >= 1000:
             print_pointsF()
-        win.blit(button_store.assetScaled,(button_store.x,button_store.y))
+        win.blit(button_store_assetScaled,(button_store.x,button_store.y))
 
     if trophy == True and store == False:
         win.blit(t1, (90,200))
