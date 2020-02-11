@@ -65,6 +65,10 @@ button_exit = pygame.Rect(10,10,30,30)
 button_exit_asset = pygame.image.load('./assets/exit.png')
 button_exit_assetScaled = pygame.transform.scale(button_exit_asset, (30,30))
 
+button_breeder = pygame.Rect(bx,by,bw,bh)
+button_breeder_asset = pygame.image.load('./assets/breeder.png')
+button_breeder_assetScaled = pygame.transform.scale(button_breeder_asset, (bw,bh))
+
 class State:
     def __init__(self):
         self.points = 0
@@ -248,11 +252,6 @@ while True:
                     motion = True
                     if event.key == pygame.K_RETURN:
                         if start == False and store == True:
-                            if px == 1:
-                                if state.points >= breeder_cost:
-                                    state.breeder_points += 1
-                                    state.points -= breeder_cost
-                                print(breeder_cost)
                             if px == 2:
                                 if state.points >= avery_cost:
                                     state.avery_points += 1
@@ -314,7 +313,12 @@ while True:
                         store = True
                     elif button_exit.collidepoint(mouseX,mouseY) and store:
                         store = False
-                    else:
+                    elif button_breeder.collidepoint(mouseX,mouseY) and store:
+                        if state.points >= breeder_cost:
+                            state.breeder_points += 1
+                            state.points -= breeder_cost
+                            print(breeder_cost)
+                    elif store == False and trophy == False and start == False:
                         state.points += 1
                         height = 125
                     press = False
@@ -322,7 +326,7 @@ while True:
 
     if px == 1:
         bx = 50
-        by = 40
+        button_breeder.y = 40
         aw = 90
         ah = 90
         ax = 300
@@ -336,19 +340,20 @@ while True:
         bw = 200
         bh = 200
         bx = 50
-        by = 50
+        button_breeder.y = 50
     else:
         bw = 200
         bh = 200
         bx = 50
-        by = 50
+        button_breeder.y = 50
         aw = 90
         ah = 90
         ax = 300
         ay = 95
 
     if store == True and trophy == False:
-        win.blit(breeders, (bx,by))
+        # win.blit(breeders, (bx,by))
+        win.blit(button_breeder_assetScaled,(button_breeder.x,button_breeder.y))
         win.blit(aicons, (ax,ay))
         print_bpoints()
         print_apoints()
