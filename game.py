@@ -71,7 +71,7 @@ button_aviary = pygame.Rect(ax,ay,aw,ah)
 button_aviary_asset = pygame.image.load('./assets/AVI2.png')
 button_aviary_assetScaled = pygame.transform.scale(button_aviary_asset, (aw,ah))
 
-button_aviaryC = pygame.Rect(320,105,bw,bh)
+button_aviaryC = pygame.Rect(320,105,60,60)
 
 class State:
     def __init__(self):
