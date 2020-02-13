@@ -54,9 +54,12 @@ button_main = pygame.Rect(125,height,100,100)
 button_main_asset = pygame.image.load('./assets/Icon.png')
 button_main_assetScaled = pygame.transform.scale(button_main_asset, (250,250))
 
-button_store = pygame.Rect(10,10,35,40)
-button_store_asset = pygame.image.load('./assets/shop.png')
-button_store_assetScaled = pygame.transform.scale(button_store_asset, (35,40))
+button_store = pygame.Rect(10,10,40,40)
+button_store_asset = pygame.image.load('./assets/shop_new.png')
+button_store_assetScaled = pygame.transform.scale(button_store_asset, (40,40))
+button_trophy = pygame.Rect(450,10,40,40)
+button_trophy_asset = pygame.image.load('./assets/trophy.png')
+button_trophy_assetScaled = pygame.transform.scale(button_trophy_asset, (40,40))
 button_exit = pygame.Rect(10,10,30,30)
 button_exit_asset = pygame.image.load('./assets/exit.png')
 button_exit_assetScaled = pygame.transform.scale(button_exit_asset, (30,30))
@@ -300,10 +303,12 @@ while True:
                     motion = True
 
                 if motion == False and press:
-                    if button_store.collidepoint(mouseX,mouseY) and store == False:
+                    if button_store.collidepoint(mouseX,mouseY) and store == False and trophy == False:
                         store = True
                     elif button_exit.collidepoint(mouseX,mouseY) and store:
                         store = False
+                    elif button_exit.collidepoint(mouseX,mouseY) and trophy:
+                        trophy = False
                     elif button_breederC.collidepoint(mouseX,mouseY) and store:
                         if state.points >= breeder_cost:
                             state.breeder_points += 1
@@ -314,6 +319,8 @@ while True:
                             if state.points >= avery_cost:
                                 state.avery_points += 1
                                 state.points -= avery_cost
+                    elif button_trophy.collidepoint(mouseX,mouseY) and store == False and trophy == False:
+                        trophy = True
                     elif store == False and trophy == False and start == False:
                         state.points += 1
                         height = 125
@@ -423,14 +430,16 @@ while True:
         if state.points >= 1000:
             print_pointsF()
         win.blit(button_store_assetScaled,(button_store.x,button_store.y))
+        win.blit(button_trophy_assetScaled,(button_trophy.x,button_trophy.y))
 
-    if trophy == True and store == False:
+    if trophy == True and store == False and start == False:
         win.blit(t1, (90,200))
         win.blit(t2, (320,200))
         print_moon()
         print_moon_points()
         print_mars()
         print_mars_points()
+        win.blit(button_exit_assetScaled,(button_exit.x,button_exit.y))
 
     if state.points < 1000:
         display_points = state.points
