@@ -7,30 +7,24 @@ pygame.display.set_caption("Bird Clicker")
 
 win = pygame.display.set_mode((500, 500))
 
-bw = 200
-bh = 200
-bx = 50
-by = 50
+bw = 120
+bh = 40
+bx = 80
+by = 120
 
-aw = 90
-ah = 90
-ax = 300
-ay = 95
+aw = 60
+ah = 60
+ax = 320
+ay = 105
 
 f1 = pygame.image.load('./assets/f1.png')
 f2 = pygame.image.load('./assets/f2.png')
 lck = pygame.image.load('./assets/locked.png')
 lcks = pygame.transform.scale(lck, (100,100))
-icon = pygame.image.load('./assets/Icon.png')
-icons = pygame.transform.scale(icon, (250,250))
 moontro = pygame.image.load('./assets/moon_trophy.png')
 moontros = pygame.transform.scale(moontro, (100,100))
 marstro = pygame.image.load('./assets/mars.png')
 marstros = pygame.transform.scale(marstro, (100,100))
-breeder = pygame.image.load('./assets/breeder.png')
-breeders = pygame.transform.scale(breeder, (bw,bh))
-aicon = pygame.image.load('./assets/AVI2.png')
-aicons = pygame.transform.scale(aicon, (aw,ah))
 
 px = 1
 
@@ -48,11 +42,39 @@ selection2 = "quit"
 ss1 = False
 ss2 = False
 
+height = 150
+
 background = f1
 
 txtbr = (0, 183, 255)
 
 white = (255, 255, 255)
+
+button_main = pygame.Rect(125,height,100,100)
+button_main_asset = pygame.image.load('./assets/Icon.png')
+button_main_assetScaled = pygame.transform.scale(button_main_asset, (250,250))
+
+button_store = pygame.Rect(10,10,40,40)
+button_store_asset = pygame.image.load('./assets/shop_new.png')
+button_store_assetScaled = pygame.transform.scale(button_store_asset, (40,40))
+button_trophy = pygame.Rect(450,10,40,40)
+button_trophy_asset = pygame.image.load('./assets/trophy.png')
+button_trophy_assetScaled = pygame.transform.scale(button_trophy_asset, (40,40))
+button_exit = pygame.Rect(10,10,30,30)
+button_exit_asset = pygame.image.load('./assets/exit.png')
+button_exit_assetScaled = pygame.transform.scale(button_exit_asset, (30,30))
+
+button_breeder = pygame.Rect(bx,by,bw,bh)
+button_breeder_asset = pygame.image.load('./assets/breeder.png')
+button_breeder_assetScaled = pygame.transform.scale(button_breeder_asset, (bw,bh))
+
+button_breederC = pygame.Rect(80,120,bw,bh)
+
+button_aviary = pygame.Rect(ax,ay,aw,ah)
+button_aviary_asset = pygame.image.load('./assets/AVI2.png')
+button_aviary_assetScaled = pygame.transform.scale(button_aviary_asset, (aw,ah))
+
+button_aviaryC = pygame.Rect(320,105,60,60)
 
 class State:
     def __init__(self):
@@ -96,8 +118,12 @@ def display_number(n):
     t = 1000
     m = 1000000
     b = 1000000000
+    tr = 1000000000000
     l = ""
-    if n >= b:
+    if n >= tr:
+        n = float(n) / tr
+        l = "TR"
+    elif n >= b:
         n = float(n) / b
         l = "B"
     elif n >= m:
@@ -204,8 +230,6 @@ timer2 = 0
 
 timer3 = 0
 
-height = 150
-
 t1 = moontros
 
 t2 = lcks
@@ -213,12 +237,13 @@ t2 = lcks
 while True:
     pygame.time.delay(30)
 
+    mouseX = pygame.mouse.get_pos()[0]
+    mouseY = pygame.mouse.get_pos()[1]
+
     win.blit(background,(0,0))
 
-    breeders = pygame.transform.scale(breeder, (bw,bh))
-
     if start == False and store == False and trophy == False:
-        win.blit(icons,(125,height))
+        win.blit(button_main_assetScaled,(button_main.x,height))
 
     press = False
 
@@ -231,16 +256,6 @@ while True:
                 if event.type == pygame.KEYDOWN:
                     motion = True
                     if event.key == pygame.K_RETURN:
-                        if start == False and store == True:
-                            if px == 1:
-                                if state.points >= breeder_cost:
-                                    state.breeder_points += 1
-                                    state.points -= breeder_cost
-                                print(breeder_cost)
-                            if px == 2:
-                                if state.points >= avery_cost:
-                                    state.avery_points += 1
-                                    state.points -= avery_cost
                         if start:
                             if ss1:
                                 start = False
@@ -270,12 +285,6 @@ while True:
                             selection1 = "start"
                             ss2 = True
                             selection2 = "QUIT"
-                    if event.key == pygame.K_RIGHT:
-                        if px <= 2:
-                            px += 1
-                    if event.key == pygame.K_LEFT:
-                        if px >= 1:
-                            px -= 1
                     if event.key == pygame.K_s:
                         if start == False and trophy == False:
                             store = True
@@ -284,7 +293,7 @@ while True:
                             trophy = True
                 if event.type == pygame.KEYUP:
                     motion = True
-                if pygame.mouse.get_pressed()[0] and press == False and start == False and store == False:
+                if pygame.mouse.get_pressed()[0]:
                     press = True
 
                 else:
@@ -294,44 +303,73 @@ while True:
                     motion = True
 
                 if motion == False and press:
-                    state.points += 1
-                    height = 125
+                    if button_store.collidepoint(mouseX,mouseY) and store == False and trophy == False:
+                        store = True
+                    elif button_exit.collidepoint(mouseX,mouseY) and store:
+                        store = False
+                    elif button_exit.collidepoint(mouseX,mouseY) and trophy:
+                        trophy = False
+                    elif button_breederC.collidepoint(mouseX,mouseY) and store:
+                        if state.points >= breeder_cost:
+                            state.breeder_points += 1
+                            state.points -= breeder_cost
+                            print(breeder_cost)
+                    elif button_aviaryC.collidepoint(mouseX,mouseY) and store:
+                        if state.points >= avery_cost:
+                            if state.points >= avery_cost:
+                                state.avery_points += 1
+                                state.points -= avery_cost
+                    elif button_trophy.collidepoint(mouseX,mouseY) and store == False and trophy == False:
+                        trophy = True
+                    elif store == False and trophy == False and start == False:
+                        state.points += 1
+                        height = 125
                     press = False
+    
+    if button_breederC.collidepoint(mouseX,mouseY) and store:
+        px = 1
+    elif button_aviaryC.collidepoint(mouseX,mouseY) and store:
+        px = 2
+    else:
+        px = 0
+
 
     if px == 1:
-        bx = 50
-        by = 40
+        button_breeder.x = 80
+        button_breeder.y = 110
         aw = 90
         ah = 90
-        ax = 300
-        ay = 95
+        button_aviary.x = 320
+        button_aviary.y = 105
 
     elif px == 2:
-        aw = 120
-        ah = 120
-        ax = 300
-        ay = 85
+        aw = 90
+        ah = 90
+        button_aviary.x = 320
+        button_aviary.y = 95
         bw = 200
         bh = 200
-        bx = 50
-        by = 50
+        button_breeder.x = 80
+        button_breeder.y = 120
     else:
         bw = 200
         bh = 200
-        bx = 50
-        by = 50
+        button_breeder.x = 80
+        button_breeder.y = 120
         aw = 90
         ah = 90
-        ax = 300
-        ay = 95
+        button_aviary.x = 320
+        button_aviary.y = 105
 
     if store == True and trophy == False:
-        win.blit(breeders, (bx,by))
-        win.blit(aicons, (ax,ay))
+        # win.blit(breeders, (bx,by))
+        win.blit(button_breeder_assetScaled,(button_breeder.x,button_breeder.y))
+        win.blit(button_aviary_assetScaled, (button_aviary.x,button_aviary.y))
         print_bpoints()
         print_apoints()
         print_acost()
         print_bcost()
+        win.blit(button_exit_assetScaled,(button_exit.x,button_exit.y))
 
     if state.breeder_points == 0:
         breeder_cost = 10
@@ -352,7 +390,6 @@ while True:
 
 
     avery_cost = int(100 * (state.avery_points + 1) * 1.5)
-    print(avery_cost)
 
     timer += 1
 
@@ -392,14 +429,17 @@ while True:
             print_points()
         if state.points >= 1000:
             print_pointsF()
+        win.blit(button_store_assetScaled,(button_store.x,button_store.y))
+        win.blit(button_trophy_assetScaled,(button_trophy.x,button_trophy.y))
 
-    if trophy == True and store == False:
+    if trophy == True and store == False and start == False:
         win.blit(t1, (90,200))
         win.blit(t2, (320,200))
         print_moon()
         print_moon_points()
         print_mars()
         print_mars_points()
+        win.blit(button_exit_assetScaled,(button_exit.x,button_exit.y))
 
     if state.points < 1000:
         display_points = state.points
