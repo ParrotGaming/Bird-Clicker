@@ -222,6 +222,34 @@ def print_mars_points():
     WintextRect3.center = (365, 330)
     win.blit(WinDraw3, WintextRect3)
 
+def print_breeder_def():
+    font = pygame.font.Font('./assets/LCD_Solid.ttf', 20)
+    WinDraw3 = font.render(f"Breeder: Gives 1 Extra Points Per Second", True, white, txtbr)
+    WintextRect3 = WinDraw3.get_rect()
+    WintextRect3.center = (250, 250)
+    win.blit(WinDraw3, WintextRect3)
+
+def print_breeder_def2():
+    font = pygame.font.Font('./assets/LCD_Solid.ttf', 20)
+    WinDraw3 = font.render(f"Multiplied By The Numbber Of Breeders", True, white, txtbr)
+    WintextRect3 = WinDraw3.get_rect()
+    WintextRect3.center = (250, 270)
+    win.blit(WinDraw3, WintextRect3)
+
+def print_aviary_def():
+    font = pygame.font.Font('./assets/LCD_Solid.ttf', 20)
+    WinDraw3 = font.render(f"Aviary: Gives 10 Extra Points Per Second", True, white, txtbr)
+    WintextRect3 = WinDraw3.get_rect()
+    WintextRect3.center = (250, 250)
+    win.blit(WinDraw3, WintextRect3)
+
+def print_aviary_def2():
+    font = pygame.font.Font('./assets/LCD_Solid.ttf', 20)
+    WinDraw3 = font.render(f"Multiplied By The Numbber Of Aviaries", True, white, txtbr)
+    WintextRect3 = WinDraw3.get_rect()
+    WintextRect3.center = (250, 270)
+    win.blit(WinDraw3, WintextRect3)
+
 pos = 0
 
 timer = 0
@@ -328,8 +356,12 @@ while True:
     
     if button_breederC.collidepoint(mouseX,mouseY) and store:
         px = 1
+        print_breeder_def()
+        print_breeder_def2()
     elif button_aviaryC.collidepoint(mouseX,mouseY) and store:
         px = 2
+        print_aviary_def()
+        print_aviary_def2()
     else:
         px = 0
 
