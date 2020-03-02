@@ -121,17 +121,24 @@ def display_number(n):
     tr = 1000000000000
     l = ""
     if n >= tr:
-        n = float(n) / tr
+        n = transform_score(n, tr)
         l = "TR"
     elif n >= b:
-        n = float(n) / b
+        n = transform_score(n, b)
         l = "B"
     elif n >= m:
-        n = float(n) / m
+        n = transform_score(n, m)
         l = "M"
     elif n >= t:
-        n = float(n) / t
+        n = transform_score(n, t)
         l = "K"
+
+    return remove_decimals(n, l)
+
+def transform_score(n, d):
+    return float(n) / d
+
+def remove_decimals(n, l):
     s = str(n)
     i = s.find(".")
     if i > -1:
@@ -145,35 +152,35 @@ def print_points():
     WintextRect.center = (100, 250)
     win.blit(WinDraw, WintextRect)
 
-def print_pointsF():
+def print_formatted_points():
     font = pygame.font.Font('./assets/LCD_Solid.ttf', 32)
     WinDraw = font.render(f"{display_number(state.points)}", True, white, txtbr)
     WintextRect = WinDraw.get_rect()
     WintextRect.center = (100, 250)
     win.blit(WinDraw, WintextRect)
 
-def print_bpoints():
+def print_breeder_points():
     font = pygame.font.Font('./assets/LCD_Solid.ttf', 32)
     WinDraw2 = font.render(f"{state.breeder_points}", True, white, txtbr)
     WintextRect2 = WinDraw2.get_rect()
     WintextRect2.center = (225, 145)
     win.blit(WinDraw2, WintextRect2)
 
-def print_bcost():
+def print_breeder_cost():
     font = pygame.font.Font('./assets/LCD_Solid.ttf', 32)
     WinDraw2 = font.render(f"{display_number(breeder_cost)}", True, white, txtbr)
     WintextRect2 = WinDraw2.get_rect()
     WintextRect2.center = (145, 190)
     win.blit(WinDraw2, WintextRect2)
 
-def print_apoints():
+def print_aviary_points():
     font = pygame.font.Font('./assets/LCD_Solid.ttf', 32)
     WinDraw3 = font.render(f"{state.avery_points}", True, white, txtbr)
     WintextRect3 = WinDraw3.get_rect()
     WintextRect3.center = (400, 145)
     win.blit(WinDraw3, WintextRect3)
 
-def print_acost():
+def print_aviary_cost():
     font = pygame.font.Font('./assets/LCD_Solid.ttf', 32)
     WinDraw2 = font.render(f"{display_number(avery_cost)}", True, white, txtbr)
     WintextRect2 = WinDraw2.get_rect()
@@ -224,14 +231,14 @@ def print_mars_points():
 
 def print_breeder_def():
     font = pygame.font.Font('./assets/LCD_Solid.ttf', 20)
-    WinDraw3 = font.render(f"Breeder: Gives 1 Extra Points Per Second", True, white, txtbr)
+    WinDraw3 = font.render(f"Breeder: Gives 1 Extra Point Per Second", True, white, txtbr)
     WintextRect3 = WinDraw3.get_rect()
     WintextRect3.center = (250, 250)
     win.blit(WinDraw3, WintextRect3)
 
 def print_breeder_def2():
     font = pygame.font.Font('./assets/LCD_Solid.ttf', 20)
-    WinDraw3 = font.render(f"Multiplied By The Numbber Of Breeders", True, white, txtbr)
+    WinDraw3 = font.render(f"Multiplied By The Number Of Breeders", True, white, txtbr)
     WintextRect3 = WinDraw3.get_rect()
     WintextRect3.center = (250, 270)
     win.blit(WinDraw3, WintextRect3)
@@ -245,7 +252,7 @@ def print_aviary_def():
 
 def print_aviary_def2():
     font = pygame.font.Font('./assets/LCD_Solid.ttf', 20)
-    WinDraw3 = font.render(f"Multiplied By The Numbber Of Aviaries", True, white, txtbr)
+    WinDraw3 = font.render(f"Multiplied By The Number Of Aviaries", True, white, txtbr)
     WintextRect3 = WinDraw3.get_rect()
     WintextRect3.center = (250, 270)
     win.blit(WinDraw3, WintextRect3)
@@ -397,10 +404,10 @@ while True:
         # win.blit(breeders, (bx,by))
         win.blit(button_breeder_assetScaled,(button_breeder.x,button_breeder.y))
         win.blit(button_aviary_assetScaled, (button_aviary.x,button_aviary.y))
-        print_bpoints()
-        print_apoints()
-        print_acost()
-        print_bcost()
+        print_breeder_points()
+        print_aviary_points()
+        print_aviary_cost()
+        print_breeder_cost()
         win.blit(button_exit_assetScaled,(button_exit.x,button_exit.y))
 
     if state.breeder_points == 0:
@@ -460,7 +467,7 @@ while True:
         if state.points < 1000:
             print_points()
         if state.points >= 1000:
-            print_pointsF()
+            print_formatted_points()
         win.blit(button_store_assetScaled,(button_store.x,button_store.y))
         win.blit(button_trophy_assetScaled,(button_trophy.x,button_trophy.y))
 
