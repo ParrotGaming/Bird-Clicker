@@ -121,17 +121,24 @@ def display_number(n):
     tr = 1000000000000
     l = ""
     if n >= tr:
-        n = float(n) / tr
+        n = transform_score(n, tr)
         l = "TR"
     elif n >= b:
-        n = float(n) / b
+        n = transform_score(n, b)
         l = "B"
     elif n >= m:
-        n = float(n) / m
+        n = transform_score(n, m)
         l = "M"
     elif n >= t:
-        n = float(n) / t
+        n = transform_score(n, t)
         l = "K"
+
+    return remove_decimals(n, l)
+
+def transform_score(n, d):
+    return float(n) / d
+
+def remove_decimals(n, l):
     s = str(n)
     i = s.find(".")
     if i > -1:
@@ -224,14 +231,14 @@ def print_mars_points():
 
 def print_breeder_def():
     font = pygame.font.Font('./assets/LCD_Solid.ttf', 20)
-    WinDraw3 = font.render(f"Breeder: Gives 1 Extra Points Per Second", True, white, txtbr)
+    WinDraw3 = font.render(f"Breeder: Gives 1 Extra Point Per Second", True, white, txtbr)
     WintextRect3 = WinDraw3.get_rect()
     WintextRect3.center = (250, 250)
     win.blit(WinDraw3, WintextRect3)
 
 def print_breeder_def2():
     font = pygame.font.Font('./assets/LCD_Solid.ttf', 20)
-    WinDraw3 = font.render(f"Multiplied By The Numbber Of Breeders", True, white, txtbr)
+    WinDraw3 = font.render(f"Multiplied By The Number Of Breeders", True, white, txtbr)
     WintextRect3 = WinDraw3.get_rect()
     WintextRect3.center = (250, 270)
     win.blit(WinDraw3, WintextRect3)
@@ -245,7 +252,7 @@ def print_aviary_def():
 
 def print_aviary_def2():
     font = pygame.font.Font('./assets/LCD_Solid.ttf', 20)
-    WinDraw3 = font.render(f"Multiplied By The Numbber Of Aviaries", True, white, txtbr)
+    WinDraw3 = font.render(f"Multiplied By The Number Of Aviaries", True, white, txtbr)
     WintextRect3 = WinDraw3.get_rect()
     WintextRect3.center = (250, 270)
     win.blit(WinDraw3, WintextRect3)
