@@ -37,6 +37,12 @@ trophy = False
 
 store = False
 
+tutorial = False
+
+tutorial_stage = 0
+
+do_tutorial = False
+
 selection1 = "start"
 selection2 = "quit"
 ss1 = False
@@ -109,7 +115,7 @@ state = State()
 try:
     state.decode()
 except:
-    pass
+    do_tutorial = True
 
 display_points = 0
 display_pointsV = ""
@@ -257,6 +263,98 @@ def print_aviary_def2():
     WintextRect3.center = (250, 270)
     win.blit(WinDraw3, WintextRect3)
 
+def print_start_instructions():
+    font = pygame.font.Font('./assets/LCD_Solid.ttf', 20)
+    WinDraw3 = font.render(f"Use the arrow keys to select an option", True, white, txtbr)
+    WintextRect3 = WinDraw3.get_rect()
+    WintextRect3.center = (250, 350)
+    win.blit(WinDraw3, WintextRect3)
+
+def print_start_instructions2():
+    font = pygame.font.Font('./assets/LCD_Solid.ttf', 20)
+    WinDraw3 = font.render(f"then press enter to", True, white, txtbr)
+    WintextRect3 = WinDraw3.get_rect()
+    WintextRect3.center = (250, 370)
+    win.blit(WinDraw3, WintextRect3)
+
+def print_start_instructions3():
+    font = pygame.font.Font('./assets/LCD_Solid.ttf', 20)
+    WinDraw3 = font.render(f"confirm your selection", True, white, txtbr)
+    WintextRect3 = WinDraw3.get_rect()
+    WintextRect3.center = (250,390)
+    win.blit(WinDraw3, WintextRect3)
+
+def print_tutorial_text1():
+    font = pygame.font.Font('./assets/LCD_Solid.ttf', 20)
+    WinDraw3 = font.render(f"To collect points press this button", True, white, txtbr)
+    WintextRect3 = WinDraw3.get_rect()
+    WintextRect3.center = (250,150)
+    win.blit(WinDraw3, WintextRect3)
+
+def print_tutorial_text2():
+    font = pygame.font.Font('./assets/LCD_Solid.ttf', 20)
+    WinDraw3 = font.render(f"Collect ten points to move on", True, white, txtbr)
+    WintextRect3 = WinDraw3.get_rect()
+    WintextRect3.center = (250,150)
+    win.blit(WinDraw3, WintextRect3)
+
+def print_tutorial_text3():
+    font = pygame.font.Font('./assets/LCD_Solid.ttf', 20)
+    WinDraw3 = font.render(f"Great Job!", True, white, txtbr)
+    WintextRect3 = WinDraw3.get_rect()
+    WintextRect3.center = (250,150)
+    win.blit(WinDraw3, WintextRect3)
+
+def print_tutorial_text4():
+    font = pygame.font.Font('./assets/LCD_Solid.ttf', 20)
+    WinDraw3 = font.render(f"Now press the button", True, white, txtbr)
+    WintextRect3 = WinDraw3.get_rect()
+    WintextRect3.center = (250,170)
+    win.blit(WinDraw3, WintextRect3)
+
+def print_tutorial_text5():
+    font = pygame.font.Font('./assets/LCD_Solid.ttf', 20)
+    WinDraw3 = font.render(f"in the top left corner", True, white, txtbr)
+    WintextRect3 = WinDraw3.get_rect()
+    WintextRect3.center = (250,190)
+    win.blit(WinDraw3, WintextRect3)
+
+def print_tutorial_text6():
+    font = pygame.font.Font('./assets/LCD_Solid.ttf', 20)
+    WinDraw3 = font.render(f"to access the store", True, white, txtbr)
+    WintextRect3 = WinDraw3.get_rect()
+    WintextRect3.center = (250,210)
+    win.blit(WinDraw3, WintextRect3)
+
+def print_tutorial_text7():
+    font = pygame.font.Font('./assets/LCD_Solid.ttf', 20)
+    WinDraw3 = font.render(f"Now click the birds to buy a breeder", True, white, txtbr)
+    WintextRect3 = WinDraw3.get_rect()
+    WintextRect3.center = (250,220)
+    win.blit(WinDraw3, WintextRect3)
+
+def print_tutorial_text8():
+    font = pygame.font.Font('./assets/LCD_Solid.ttf', 20)
+    WinDraw3 = font.render(f"Congrats, you've finished the tutorial!", True, white, txtbr)
+    WintextRect3 = WinDraw3.get_rect()
+    WintextRect3.center = (250,220)
+    win.blit(WinDraw3, WintextRect3)
+
+def print_tutorial_text9():
+    font = pygame.font.Font('./assets/LCD_Solid.ttf', 20)
+    WinDraw3 = font.render(f"Click your mouse to move", True, white, txtbr)
+    WintextRect3 = WinDraw3.get_rect()
+    WintextRect3.center = (250,240)
+    win.blit(WinDraw3, WintextRect3)
+
+def print_tutorial_text10():
+    font = pygame.font.Font('./assets/LCD_Solid.ttf', 20)
+    WinDraw3 = font.render(f"on to the full game", True, white, txtbr)
+    WintextRect3 = WinDraw3.get_rect()
+    WintextRect3.center = (250,260)
+    win.blit(WinDraw3, WintextRect3)
+
+
 pos = 0
 
 timer = 0
@@ -278,7 +376,11 @@ while True:
     win.blit(background,(0,0))
 
     if start == False and store == False and trophy == False:
-        win.blit(button_main_assetScaled,(button_main.x,height))
+        if tutorial:
+            if tutorial_stage < 2:
+                win.blit(button_main_assetScaled,(button_main.x,height))
+        if tutorial == False:
+            win.blit(button_main_assetScaled,(button_main.x,height))
 
     press = False
 
@@ -294,6 +396,8 @@ while True:
                         if start:
                             if ss1:
                                 start = False
+                                if do_tutorial:
+                                    tutorial = True
                             if ss2:
                                 state.encode()
                                 pygame.display.quit()
@@ -338,14 +442,26 @@ while True:
                     motion = True
 
                 if motion == False and press:
+                    if tutorial:
+                        if tutorial_stage == 4:
+                            tutorial = False
+                            tutorial_stage == 0
+                            store = False
                     if button_store.collidepoint(mouseX,mouseY) and store == False and trophy == False:
-                        store = True
+                        if tutorial:
+                            if tutorial_stage == 2 or tutorial_stage == 3:
+                                store = True
+                                tutorial_stage = 3
+                        if tutorial == False:
+                            store = True
                     elif button_exit.collidepoint(mouseX,mouseY) and store:
                         store = False
                     elif button_exit.collidepoint(mouseX,mouseY) and trophy:
                         trophy = False
                     elif button_breederC.collidepoint(mouseX,mouseY) and store:
                         if state.points >= breeder_cost:
+                            if tutorial:
+                                tutorial_stage = 4
                             state.breeder_points += 1
                             state.points -= breeder_cost
                             print(breeder_cost)
@@ -354,18 +470,23 @@ while True:
                             if state.points >= avery_cost:
                                 state.avery_points += 1
                                 state.points -= avery_cost
-                    elif button_trophy.collidepoint(mouseX,mouseY) and store == False and trophy == False:
+                    elif button_trophy.collidepoint(mouseX,mouseY) and store == False and trophy == False and tutorial == False:
                         trophy = True
                     elif store == False and trophy == False and start == False:
-                        state.points += 1
-                        height = 125
+                        if tutorial:
+                            if tutorial_stage < 2:
+                                state.points += 1
+                                height = 125
+                        if tutorial == False:
+                            state.points += 1
+                            height = 125
                     press = False
     
-    if button_breederC.collidepoint(mouseX,mouseY) and store:
+    if button_breederC.collidepoint(mouseX,mouseY) and store and tutorial_stage != 4:
         px = 1
         print_breeder_def()
         print_breeder_def2()
-    elif button_aviaryC.collidepoint(mouseX,mouseY) and store:
+    elif button_aviaryC.collidepoint(mouseX,mouseY) and store and tutorial_stage != 4:
         px = 2
         print_aviary_def()
         print_aviary_def2()
@@ -401,14 +522,25 @@ while True:
         button_aviary.y = 105
 
     if store == True and trophy == False:
-        # win.blit(breeders, (bx,by))
-        win.blit(button_breeder_assetScaled,(button_breeder.x,button_breeder.y))
-        win.blit(button_aviary_assetScaled, (button_aviary.x,button_aviary.y))
-        print_breeder_points()
-        print_aviary_points()
-        print_aviary_cost()
-        print_breeder_cost()
-        win.blit(button_exit_assetScaled,(button_exit.x,button_exit.y))
+        if tutorial:
+            if tutorial_stage == 2 or tutorial_stage == 3:
+                # win.blit(breeders, (bx,by))
+                win.blit(button_breeder_assetScaled,(button_breeder.x,button_breeder.y))
+                win.blit(button_aviary_assetScaled, (button_aviary.x,button_aviary.y))
+                print_breeder_points()
+                print_aviary_points()
+                print_aviary_cost()
+                print_breeder_cost()
+                win.blit(button_exit_assetScaled,(button_exit.x,button_exit.y))
+        if tutorial == False:
+            # win.blit(breeders, (bx,by))
+            win.blit(button_breeder_assetScaled,(button_breeder.x,button_breeder.y))
+            win.blit(button_aviary_assetScaled, (button_aviary.x,button_aviary.y))
+            print_breeder_points()
+            print_aviary_points()
+            print_aviary_cost()
+            print_breeder_cost()
+            win.blit(button_exit_assetScaled,(button_exit.x,button_exit.y))
 
     if state.breeder_points == 0:
         breeder_cost = 10
@@ -447,6 +579,9 @@ while True:
     if start:
         print_start()
         print_quit()
+        print_start_instructions()
+        print_start_instructions2()
+        print_start_instructions3()
 
     if state.points >= 100:
         state.moon = True
@@ -463,15 +598,48 @@ while True:
     if state.mars == False:
         t2 = lcks
 
-    if start == False and store == False and trophy == False:
-        if state.points < 1000:
-            print_points()
-        if state.points >= 1000:
-            print_formatted_points()
-        win.blit(button_store_assetScaled,(button_store.x,button_store.y))
-        win.blit(button_trophy_assetScaled,(button_trophy.x,button_trophy.y))
+    if tutorial:
+        if tutorial_stage == 0:
+            print_tutorial_text1()
+        if state.points >= 1 and tutorial_stage == 0:
+            tutorial_stage = 1
+        if tutorial_stage == 1:
+            print_tutorial_text2()
+        if state.points >= 10 and tutorial_stage == 1:
+            tutorial_stage = 2
+        if tutorial_stage == 2:
+            print_tutorial_text3()
+            print_tutorial_text4()
+            print_tutorial_text5()
+            print_tutorial_text6()
+        if tutorial_stage == 3:
+            print_tutorial_text7()
+        if tutorial_stage == 4:
+            store == False
+            print_tutorial_text8()
+            print_tutorial_text9()
+            print_tutorial_text10()
 
-    if trophy == True and store == False and start == False:
+    if start == False and store == False and trophy == False:
+        if tutorial:
+            if tutorial_stage <= 1:
+                if state.points < 1000:
+                    print_points()
+                if state.points >= 1000:
+                    print_formatted_points()
+            if tutorial_stage == 2 or tutorial_stage == 3:
+                win.blit(button_store_assetScaled,(button_store.x,button_store.y))
+            if tutorial_stage == 4:
+                win.blit(button_trophy_assetScaled,(button_trophy.x,button_trophy.y))
+        if tutorial == False:
+            if state.points < 1000:
+                print_points()
+            if state.points >= 1000:
+                print_formatted_points()
+            win.blit(button_store_assetScaled,(button_store.x,button_store.y))
+            win.blit(button_trophy_assetScaled,(button_trophy.x,button_trophy.y))
+
+    if trophy == True and store == False and start == False and tutorial == False:
         win.blit(t1, (90,200))
         win.blit(t2, (320,200))
         print_moon()
